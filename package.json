@@ -1,0 +1,14 @@
+{
+  "name": "aws-code-deploy",
+  "version": "1.0.0",
+  "main": "app/server.js",
+  "author": "Ankit Patial <ankitpatial@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.15.3"
+  },
+  "scripts": {
+    "deploy-prod": "./bundle.sh Live",
+    "deploy-stage": "./bundle.sh Staging"
+  }
+}

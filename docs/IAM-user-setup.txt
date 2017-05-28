@@ -1,0 +1,65 @@
+To setup IAM user that has access to deploy app.
+- In AWS console click on Services menu option, search for IAM and click on that.
+- In IAM section look for Users option in leftbar and click on it, add a new user
+- Once user is created add permissions to it. Following are the custom policies.
+  S3:
+  {
+      "Version": "2012-10-17",
+      "Statement": [
+          {
+              "Effect": "Allow",
+              "Action": [
+                  "s3:ListAllMyBuckets"
+              ],
+              "Resource": "*"
+          },
+          {
+              "Effect": "Allow",
+              "Action": [
+                  "s3:ListBucket",
+                  "s3:PutObject"
+              ],
+              "Resource": [
+                  "arn:aws:s3:::deploy.CODE_DEPLOY_S3_BUCKET/*"
+              ]
+          }
+      ]
+  }
+
+  code-deploy:
+  {
+      "Version": "2012-10-17",
+      "Statement": [
+          {
+              "Effect": "Allow",
+              "Action": [
+                  "codedeploy:RegisterApplicationRevision",
+                  "codedeploy:GetApplicationRevision"
+              ],
+              "Resource": [
+                  "arn:aws:codedeploy:YOUR_AWS_REGION:YOUR_AWS_ACCOUNT_ID:application:CODE_DEPLOY_APPLICATION_NAME"
+              ]
+          },
+          {
+              "Effect": "Allow",
+              "Action": [
+                  "codedeploy:CreateDeployment",
+                  "codedeploy:GetDeployment"
+              ],
+              "Resource": [
+                  "arn:aws:codedeploy:YOUR_AWS_REGION:YOUR_AWS_ACCOUNT_ID:deploymentgroup:CODE_DEPLOY_APPLICATION_NAME/*"
+              ]
+          },
+          {
+              "Effect": "Allow",
+              "Action": [
+                  "codedeploy:GetDeploymentConfig"
+              ],
+              "Resource": [
+                  "arn:aws:codedeploy:YOUR_AWS_REGION:YOUR_AWS_ACCOUNT_ID:deploymentconfig:CodeDeployDefault.OneAtATime",
+                  "arn:aws:codedeploy:YOUR_AWS_REGION:YOUR_AWS_ACCOUNT_ID:deploymentconfig:CodeDeployDefault.HalfAtATime",
+                  "arn:aws:codedeploy:YOUR_AWS_REGION:YOUR_AWS_ACCOUNT_ID:deploymentconfig:CodeDeployDefault.AllAtOnce"
+              ]
+          }
+      ]
+  }
